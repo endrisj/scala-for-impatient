@@ -1,11 +1,13 @@
 package chapter.c03
 
+import java.awt.datatransfer.{DataFlavor, SystemFlavorMap}
+
 import scala.collection.mutable.ArrayBuffer
 
 object ExerciseCh03 {
 
   def main(args: Array[String]): Unit = {
-    e8()
+    e11()
   }
 
   def e1(): Unit = {
@@ -63,6 +65,40 @@ object ExerciseCh03 {
   }
 
   def e8(): Unit = {
+    val a = ArrayBuffer(0, 1, -5, 4, 88, -89, 456, 0, -5555)
 
+    /*
+    var first = true
+    var n = a.length
+    var i = 0
+    while (i < n) {
+      if (a(i) >= 0) i += 1 else {
+        if (first) {
+          first = false; i += 1
+        }
+        else {
+          a.remove(i);
+          n -= 1
+        }
+      }
+    }
+     */
+
+    // rewritten:
+    val negativeElementIndices = for (i <- a.indices if a(i) < 0) yield i
+    for (i <- negativeElementIndices.drop(1).reverse) a.remove(i)
+
+    println(a.mkString(", "))
+  }
+
+  def e10(): Unit = {
+    def europeanTimeZones = for (id <- java.util.TimeZone.getAvailableIDs() if id.startsWith("Europe/")) yield id.substring(7)
+    println(europeanTimeZones.mkString("\n"))
+  }
+
+  def e11(): Unit = {
+    val flavors = SystemFlavorMap.getDefaultFlavorMap().asInstanceOf[SystemFlavorMap]
+    def aa = flavors.getNativesForFlavor(DataFlavor.imageFlavor)
+    println(aa)
   }
 }
